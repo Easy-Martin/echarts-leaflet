@@ -1,6 +1,6 @@
 {
   "name": "lm-echarts-leaflet",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "leaflet extension for echarts",
   "main": "dist/echarts-leaflet.js",
   "scripts": {
@@ -15,6 +15,7 @@
     "leaflet": "^1.1.0"
   },
   "devDependencies": {
+    "rollup": "^1.19.4",
     "babel-core": "^6.26.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
@@ -23,8 +24,5 @@
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-node-resolve": "^3.0.0"
-  },
-  "dependencies": {
-    "rollup": "^1.19.4"
   }
 }
