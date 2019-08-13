@@ -42,15 +42,12 @@ LeafletCoordSys.prototype.pointToData = function(pt) {
   const mapOffset = this._mapOffset;
   const coord = this._map.layerPointToLatLng({
     x: pt[0] + mapOffset[0],
-    y: pt[1] + mapOffset[1],
+    y: pt[1] + mapOffset[1]
   });
   return [coord.lng, coord.lat];
 };
 
-LeafletCoordSys.prototype.convertToPixel = util.curry(
-  doConvert,
-  'dataToPoint'
-);
+LeafletCoordSys.prototype.convertToPixel = util.curry(doConvert, 'dataToPoint');
 
 LeafletCoordSys.prototype.convertFromPixel = util.curry(
   doConvert,
@@ -72,10 +69,9 @@ function doConvert(methodName, ecModel, finder, value) {
   let coordSys = leafletModel
     ? leafletModel.coordinateSystem
     : seriesModel
-      ? seriesModel.coordinateSystem || // For map.
-        (seriesModel.getReferringComponents('leaflet')[0] || {})
-          .coordinateSystem
-      : null;
+    ? seriesModel.coordinateSystem || // For map.
+      (seriesModel.getReferringComponents('leaflet')[0] || {}).coordinateSystem
+    : null;
   /* eslint-disable no-invalid-this */
   return coordSys === this ? coordSys[methodName](value) : null;
 }
@@ -120,7 +116,7 @@ const CustomOverlay = L.Layer.extend({
     // Recalculate position of container
     // L.DomUtil.setPosition(this._container, point);
     // Add/remove/reposition children elements if needed
-  },
+  }
 });
 
 LeafletCoordSys.create = function(ecModel, api) {
@@ -153,6 +149,10 @@ LeafletCoordSys.create = function(ecModel, api) {
       mapRoot.classList.add('ec-extension-leaflet');
       root.appendChild(mapRoot);
       let map = (leafletModel.__map = L.map(mapRoot));
+      var initCallback = leafletModel.get('initCallback');
+      if (initCallback) {
+        initCallback(_map);
+      }
       const tiles = leafletModel.get('tiles');
       let baseLayers = {};
       let baseLayerAdded = false;

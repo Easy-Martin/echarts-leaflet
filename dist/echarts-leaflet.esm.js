@@ -142,7 +142,11 @@ LeafletCoordSys.create = function (ecModel, api) {
       // Not support IE8
       mapRoot.classList.add('ec-extension-leaflet');
       root.appendChild(mapRoot);
-      var _map = leafletModel.__map = L.map(mapRoot);
+      var _map2 = leafletModel.__map = L.map(mapRoot);
+      var initCallback = leafletModel.get('initCallback');
+      if (initCallback) {
+        initCallback(_map);
+      }
       var tiles = leafletModel.get('tiles');
       var baseLayers = {};
       var baseLayerAdded = false;
@@ -158,13 +162,13 @@ LeafletCoordSys.create = function (ecModel, api) {
           if (tile.label) {
             // only add one baseLayer
             if (!baseLayerAdded) {
-              tileLayer.addTo(_map);
+              tileLayer.addTo(_map2);
               baseLayerAdded = true;
             }
             baseLayers[tile.label] = tileLayer;
           } else {
             // add all tiles without labels into the map
-            tileLayer.addTo(_map);
+            tileLayer.addTo(_map2);
           }
         }
         // add layer control when there are more than two layers
@@ -185,7 +189,7 @@ LeafletCoordSys.create = function (ecModel, api) {
 
       if (tiles.length > 1) {
         var layerControlOpts = leafletModel.get('layerControl');
-        L.control.layers(baseLayers, {}, layerControlOpts).addTo(_map);
+        L.control.layers(baseLayers, {}, layerControlOpts).addTo(_map2);
       }
 
       /*
@@ -198,7 +202,7 @@ LeafletCoordSys.create = function (ecModel, api) {
       moveContainer.style = 'position: relative;';
       moveContainer.appendChild(viewportRoot);
 
-      new CustomOverlay(moveContainer).addTo(_map);
+      new CustomOverlay(moveContainer).addTo(_map2);
     }
     var map = leafletModel.__map;
 
